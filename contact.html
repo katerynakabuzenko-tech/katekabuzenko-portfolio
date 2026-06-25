@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Contact — Kate Kabuzenko</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Noto+Serif+JP:wght@200;300;400&family=DM+Sans:wght@300;400;500&family=Questrial&family=Water+Brush&family=Nanum+Brush+Script&family=Swanky+and+Moo+Moo&family=Montserrat+Alternates:wght@500;600;700&family=Montserrat:wght@400;700;800&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet"/>
+<link rel="icon" type="image/png" href="images/Home about/meFAV-round.png"/>
+<link rel="stylesheet" href="css/style.css?v=6"/>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="site-header-inner">
+    <a href="portfolio.html" class="site-logo">
+      <span class="site-logo-text">katekabu<span class="logo-z">z</span>enko</span>
+      <span class="site-logo-mark">*</span>
+    </a>
+    <div class="site-header-right">
+      <nav class="site-nav-inline">
+        <a href="work.html">Work</a>
+        <a href="about.html">About</a>
+        <a href="contact.html" class="current">Contact</a>
+      </nav>
+      <button class="site-menu-btn" id="site-menu-open" aria-label="Open menu">
+        <span class="dot dot-tl"></span><span class="dot dot-tr"></span>
+        <span class="dot dot-mid"></span>
+        <span class="dot dot-bl"></span><span class="dot dot-br"></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="site-nav-overlay" id="site-nav-overlay">
+  <button class="site-nav-close" id="site-menu-close" aria-label="Close menu">
+    <span class="dot dot-tl"></span><span class="dot dot-tr"></span>
+    <span class="dot dot-mid"></span>
+    <span class="dot dot-bl"></span><span class="dot dot-br"></span>
+  </button>
+  <a href="portfolio.html">Home</a>
+  <a href="work.html">Work</a>
+  <a href="about.html">About</a>
+  <a href="contact.html" class="current">Contact</a>
+</div>
+
+<section class="contact-hero reveal">
+  <div class="contact-title-1">SHOOT A</div>
+  <div class="contact-title-2">request</div>
+</section>
+
+<section class="contact-body">
+  <a href="mailto:katekabuzenko@icloud.com" class="contact-email reveal reveal-delay-1">katekabuzenko@icloud.com</a>
+
+  <form class="contact-form reveal reveal-delay-2" id="contact-form">
+    <input type="text" name="name" placeholder="Your Name" required/>
+    <input type="email" name="email" placeholder="Your Email" required/>
+    <textarea name="message" placeholder="Your Masterpiece Starts Here" required></textarea>
+    <button type="submit" class="contact-submit"><span>Send it!</span> <span class="btn-arrow">→</span></button>
+    <p class="contact-note">Opens your email client with this message addressed to katekabuzenko@icloud.com.</p>
+  </form>
+</section>
+
+<footer id="contact">
+  <div class="container">
+    <div class="footer-social">
+      <a href="https://www.linkedin.com/in/kate-kabuzenko/" target="_blank" rel="noopener" class="footer-social-link">Linkedin</a>
+      <a href="#" class="footer-social-link">WhatsApp</a>
+    </div>
+    <div class="footer-cta">
+      <div class="footer-cta-text">Looking for a dedicated designer to join your team? <span>Let's connect and create a seamless digital experience.</span></div>
+      <div class="footer-cta-row">
+        <a href="mailto:katekabuzenko@icloud.com" class="btn-pill btn-pill-light">Get in Touch</a>
+        <div class="footer-available"><span class="pulse-dot"></span> Available For Work</div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-contact-info">
+        <p>+44 7342 23 91 91</p>
+        <a href="mailto:katekabuzenko@icloud.com">katekabuzenko@icloud.com</a>
+      </div>
+      <div class="footer-copyright">
+        <p>All rights reserved,</p>
+        <p>katekabuzenko ©2026</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/site.js"></script>
+<script>
+  const revealEls = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target);}
+    });
+  },{threshold:0.12,rootMargin:'0px 0px -40px 0px'});
+  revealEls.forEach(el=>observer.observe(el));
+
+  document.getElementById('contact-form').addEventListener('submit', function(e){
+    e.preventDefault();
+    const f = e.target;
+    const subject = encodeURIComponent('New project inquiry from ' + f.name.value);
+    const body = encodeURIComponent(f.message.value + '\n\n— ' + f.name.value + ' (' + f.email.value + ')');
+    window.location.href = 'mailto:katekabuzenko@icloud.com?subject=' + subject + '&body=' + body;
+  });
+</script>
+
+</body>
+</html>
