@@ -475,6 +475,13 @@ footer{
   footer{padding:48px 16px 32px;}
   .footer-grid{flex-direction:column;gap:36px;}
   .footer-bottom{flex-direction:column;align-items:flex-start;gap:8px;}
+  /* Stats row stays 3-across (not stacked) all the way down to phone
+     widths — shrink the brush-script numbers and labels so each column
+     keeps fitting without wrapping awkwardly or overflowing. */
+  .about-stats{gap:6px;padding-top:24px;}
+  .stat-item{gap:8px;}
+  .stat-num{font-size:34px;}
+  .stat-label{font-size:10px;line-height:1.35;}
 }
 .btn-pill{
   display:inline-flex;align-items:center;justify-content:center;
@@ -638,9 +645,19 @@ footer#contact{background:var(--ink);color:#fff;padding:64px 48px;border-top:non
 @media(max-width:900px){
   .work-row{grid-template-columns:1fr;gap:24px;}
   .work-row-image{order:-1;}
-  .about-photo-row{flex-direction:column;gap:32px;}
+  /* Same issue as .about-photo-block on the About page: margin-bottom:88px
+     (base) and .about-stats{padding-top:56px} are both sized for the
+     desktop side-by-side row. Once .about-photo-row stacks into a column
+     here, that combined ~144px gap before the stats grid — and visually
+     before the footer right after it — reads as an oversized empty block
+     on tablet/mobile. */
+  .about-photo-row{flex-direction:column;gap:32px;margin-bottom:48px;}
   .about-photo{flex:1 1 auto;width:100%;}
-  .about-stats{grid-template-columns:1fr;gap:36px;}
+  /* Kate wants the stats row to stay horizontal (3 columns, like desktop)
+     at every width instead of stacking — shrink the gap/padding here and
+     the font sizes below so "4+ / 9+ / 3" + labels keep fitting side by
+     side as the viewport narrows. */
+  .about-stats{gap:12px;padding-top:32px;}
   .footer-bottom{flex-direction:column;}
   .footer-copyright{text-align:left;}
 }
@@ -835,7 +852,13 @@ body{font-family:'Plus Jakarta Sans',sans-serif;overflow-x:hidden;}
      overflow-x:hidden on body just hides the scrollbar without stopping
      the layout overflow. flex-basis:auto + an explicit width:100% keeps
      the frame's size driven by the column's own width instead. */
-  .about-photo-block{flex-direction:column;}
+  .about-photo-block{flex-direction:column;
+    /* margin-bottom:96px (base) is sized for the desktop side-by-side
+       row; once it stacks into a column here it's already much taller,
+       so the flat 96px on top of that reads as a big dead gap before
+       "services." on tablet. (The <600px rule tightens it further to
+       48px for phones, but tablet — 601-900px — was never adjusted.) */
+    margin-bottom:56px;}
   .about-photo-block .about-photo-frame{flex:1 1 auto;width:100%;}
   .case-gallery{grid-template-columns:1fr;}
   .case-meta-row{gap:24px;}
@@ -950,6 +973,21 @@ body{font-family:'Plus Jakarta Sans',sans-serif;overflow-x:hidden;}
      (e.g. BeeCalm's bee-icon + hexagon-grid shots) that read better sitting
      side by side even on narrow screens than stacked full-width. */
   .cs-gallery-row.keep-row-mobile{flex-direction:row;gap:10px;}
+}
+@media(max-width:400px){
+  /* At very narrow widths (≤390px) the two cs-nav-footer links ("← Prev"
+     and "Next: ... →") no longer fit side by side with justify-content:
+     space-between — the combined width overflows the viewport by a few
+     px, causing a faint horizontal scrollbar. Wrapping lets the second
+     link drop to its own line instead of spilling past the edge. */
+  .cs-nav-footer{flex-wrap:wrap;gap:12px;}
+  .cs-nav-link{font-size:14px;}
+  /* Smallest phones (360-390px): tighten the stats row a touch more so
+     the longest label, "iOS · Android · Web", doesn't wrap onto a 4th
+     line within its narrow ~110px column. */
+  .about-stats{gap:4px;}
+  .stat-num{font-size:28px;}
+  .stat-label{font-size:9px;}
 }
 .cll{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--hr);}
 .fb2{border-top:1px solid var(--bd);padding-top:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;}

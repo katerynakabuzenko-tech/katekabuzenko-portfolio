@@ -4,8 +4,10 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Work — Kate Kabuzenko</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Noto+Serif+JP:wght@200;300;400&family=DM+Sans:wght@300;400;500&family=Questrial&family=Water+Brush&family=Nanum+Brush+Script&family=Swanky+and+Moo+Moo&family=Montserrat+Alternates:wght@500;600;700&family=Montserrat:wght@400;700;800&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet"/>
-<link rel="icon" type="image/png" href="images/Home about/meFAV-round.png"/>
+<link rel="icon" type="image/png" href="images/Home about/meFAV-round.webp?v=2"/>
 <link rel="stylesheet" href="css/style.css?v=6"/>
 </head>
 <body>
@@ -63,7 +65,7 @@
       </div>
     </div>
     <div class="work-row-image">
-      <img src="images/Case screens/Speech platform.png" alt="Speech technology responsive web platform case study" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"/>
+      <img src="images/Case screens/Speech platform.webp" alt="Speech technology responsive web platform case study" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"/>
       <div class="work-img-fallback" style="display:none;">Speech Platform</div>
     </div>
   </div>
@@ -79,7 +81,7 @@
       </div>
     </div>
     <div class="work-row-image">
-      <img src="images/Case screens/BeeCalm.png" alt="BeeCalm — mental health app case study" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"/>
+      <img src="images/Case screens/BeeCalm.webp" alt="BeeCalm — mental health app case study" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"/>
       <div class="work-img-fallback" style="display:none;">BeeCalm</div>
     </div>
   </a>
@@ -95,7 +97,7 @@
       </div>
     </div>
     <div class="work-row-image">
-      <img src="images/Case screens/ScriptBuddy.png" alt="ScriptBuddy — AI content creation case study" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"/>
+      <img src="images/Case screens/ScriptBuddy.webp" alt="ScriptBuddy — AI content creation case study" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"/>
       <div class="work-img-fallback" style="display:none;">ScriptBuddy</div>
     </div>
   </a>
@@ -111,7 +113,7 @@
       </div>
     </div>
     <div class="work-row-image">
-      <img src="images/Case screens/PromptSmart.png" alt="PromptSmart — speech technology case study" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"/>
+      <img src="images/Case screens/PromptSmart.webp" alt="PromptSmart — speech technology case study" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"/>
       <div class="work-img-fallback" style="display:none;">PromptSmart</div>
     </div>
   </a>
@@ -127,7 +129,7 @@
       </div>
     </div>
     <div class="work-row-image">
-      <img src="images/Case screens/Venue Marketplace.png" alt="B2B venue marketplace platform case study" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"/>
+      <img src="images/Case screens/Venue Marketplace.webp" alt="B2B venue marketplace platform case study" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"/>
       <div class="work-img-fallback" style="display:none;">Venue Marketplace</div>
     </div>
   </div>
@@ -171,6 +173,30 @@
     });
   },{threshold:0.12,rootMargin:'0px 0px -40px 0px'});
   revealEls.forEach(el=>observer.observe(el));
+
+  // Safety net: scroll-reveal relies on IntersectionObserver firing as the
+  // user scrolls. Automated full-page screenshot/PDF tools (and some "long
+  // screenshot" phone capture features) render the whole document in one
+  // pass without firing real scroll/resize events, which can leave .reveal
+  // elements permanently stuck at opacity:0 — looking like a big empty gap
+  // even though the content is laid out correctly. A lightweight poll
+  // catches anything already sitting in view that the observer missed,
+  // then stops once nothing is left to check.
+  const revealFallback = setInterval(()=>{
+    const pending = document.querySelectorAll('.reveal:not(.visible)');
+    if(!pending.length){clearInterval(revealFallback);return;}
+    pending.forEach(el=>{
+      const r = el.getBoundingClientRect();
+      if(r.top < window.innerHeight && r.bottom > 0) el.classList.add('visible');
+    });
+  }, 400);
+  // Final backstop: non-scrolling capture tools never bring below-fold
+  // content into the viewport, so the poll above can never see it either.
+  // After a short grace period, force-reveal anything still hidden.
+  setTimeout(()=>{
+    clearInterval(revealFallback);
+    document.querySelectorAll('.reveal:not(.visible)').forEach(el=>el.classList.add('visible'));
+  }, 2500);
 
   let workToastTimer;
   function showWorkToast(message){
